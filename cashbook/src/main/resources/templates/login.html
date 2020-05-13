@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+	$('#btn').click(function(){
+		if($('#memberId').val().length==0){
+			alert("아이디/비빌번호를 확인해주세요");
+		}else if($('#memberPw').val().length==0){
+			alert("아이디/비빌번호를 확인해주세요");
+		}else if($('#memberId').val().length<4){
+			alert("아이디/비빌번호를 확인해주세요");
+		}else if($('#memberPw').val().length<4){
+			alert("아이디/비빌번호를 확인해주세요");
+		}	
+		$('#loginForm').submit();
+	});
+});
+</script>  
+</head>
+<body>
+	<div class="container">
+	<h1>로그인</h1>
+	<form id="loginForm" class="form-inline" method="post" action="/login">
+			<label class="mb-2 mr-sm-2">member_id:</label>
+			<input type="text"  class="form-control mb-2 mr-sm-2" id="memberId" name="memberId">
+		
+			<label class="mb-2 mr-sm-2">member_pw:</label>
+			<input type="password" class="form-control mb-2 mr-sm-2" id="memberPw" name="memberPw">
+			
+		<button type="button" id="btn" class="btn btn-outline-primary">로그인</button>
+	</form>
+	</div>
+</body>
+</html>

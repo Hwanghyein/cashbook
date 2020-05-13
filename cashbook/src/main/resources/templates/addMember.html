@@ -30,7 +30,7 @@ $(document).ready(function(){
 		}else if($('#memberPw').val() != $('#memberPw2').val()){
 			helperInit();
 			$('#pw2Helper').text("pw불일치");
-			$('#memberPw').focus();
+			$('#memberPw2').focus();
 		}else if($('#memberName').val().length === 0){
 			helperInit();
 			$('#nameHelper').text("이름을 확인하세요");
@@ -96,7 +96,7 @@ $(document).ready(function(){
 				<span id="emailHelper"></span>
 			</div>
 			<div >
-			<button type="button" id="btn">회원가입</button>
+			<button type="button" id="btn" class="btn btn-primary">회원가입</button>
 			</div>
 		</form>
 	</div>
