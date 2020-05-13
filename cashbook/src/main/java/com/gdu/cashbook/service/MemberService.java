@@ -13,10 +13,16 @@ import com.gdu.cashbook.vo.LoginMember;
 public class MemberService {
 	@Autowired
 	private MemberMapper memberMapper;
+	//아이디 중복 체크 
+	public String checkMemberId(String memberIdCheck) {
+		return memberMapper.selectMemberId(memberIdCheck);
+	}
 	
+	//로그인
 	public LoginMember login(LoginMember loginMember) {
 		return memberMapper.selectLoginMember(loginMember);
 	}
+	//회원가입
 	public int addMember(Member member) {
 		return memberMapper.insertMember(member);
 	} 
