@@ -55,10 +55,10 @@ $(document).ready(function(){
 	});
 	//중복체크 버튼을 클릭하였을 발생 경우
 	$('#idbtn').click(function(){
-		//if($('#memberIdCheck').val().length<4){
-			//$('#').text("id 4자이상");
-			//return;
-		//}
+		if($('#memberIdCheck').val().length<4){
+			$('#memberIdhelper').text("id 4자이상");
+			return;
+		}
 		$('#idForm').submit();
 	});
 });

@@ -17,6 +17,43 @@ import com.gdu.cashbook.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	
+	//회원탈퇴 폼
+	@GetMapping("/removeMember")
+	public String configure(HttpSession session,Model model) {
+		//로그인 아닐때
+		if(session.getAttribute("loginMember")== null) {
+				return "redirect:/";
+		}
+		Member member = memberService.getMemberId((LoginMember)(session.getAttribute("loginMember")));
+		model.addAttribute("member",member);
+		return "removeMember";
+	}
+	//회원탈퇴 액션
+	@PostMapping("/removeMember")
+	public String configure(HttpSession session,Member member) {
+		memberService.removeMember(member);
+		session.invalidate();
+		return "redirect:/";
+	}
+	//회원 정보수정 폼
+	@GetMapping("/modifyMember")
+	public String modifyMember(HttpSession session, Model model,LoginMember loginMember) {
+		//로그인 아닐때
+		if(session.getAttribute("loginMember")== null) {
+				return "redirect:/";
+		}
+		Member member = memberService.getMemberId((LoginMember)(session.getAttribute("loginMember")));
+		System.out.println(member);
+		model.addAttribute("member",member);
+		return "modifyMember";
+	}
+	
+	@PostMapping("/modifyMember")
+	public String modifyMembmer(Member member) {
+		memberService.modifyMember(member);
+		return "/memberInfo";
+	}
 	//회원정보 폼으로 이동
 	@GetMapping("/memberInfo")
 	public String memberInfo(HttpSession session, Model model) {

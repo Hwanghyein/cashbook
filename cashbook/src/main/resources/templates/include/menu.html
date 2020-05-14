@@ -3,11 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        position: relative;
+        overflow-y: auto;
+    }
+#aside{
+ 		width: 200px;
+        height: 3000px;
+        position: fixed;
+        background: blue;
+        overflow: hidden;
+        float: left;
+        color: white;
 
+          
+}
+</style> 
 </head>
 <body>
 	<!-- fragment1 /include/menu::sidemenu -->
-	<div th:fragment="sidemenu">
+	<div id="aside" th:fragment="sidemenu">
 		<div><span th:text="${session.loginMember.memberId}"></span>님</div>
 		<ul>
 			<li><a th:href="@{/home}">홈</a></li>
