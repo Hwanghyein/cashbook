@@ -55,6 +55,10 @@ $(document).ready(function(){
 	});
 	//중복체크 버튼을 클릭하였을 발생 경우
 	$('#idbtn').click(function(){
+		//if($('#memberIdCheck').val().length<4){
+			//$('#').text("id 4자이상");
+			//return;
+		//}
 		$('#idForm').submit();
 	});
 });
@@ -69,7 +73,7 @@ $(document).ready(function(){
 			<label>아이디 중복 확인:</label>
 			<input type="text" class="form-control"  name="memberIdCheck" id="memberIdCheck">
 			<button id="idbtn" type="button" class="btn btn-primary">중복체크</button>
-			<span th:text="${msg}"></span>			
+			<span id="memberIdhelper" th:text="${msg}"></span>			
 		</div>
 		</form>
 		<form id ="myform" method="post" action="/addMember">

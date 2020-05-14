@@ -17,7 +17,18 @@ import com.gdu.cashbook.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	
+	//회원정보 폼으로 이동
+	@GetMapping("/memberInfo")
+	public String memberInfo(HttpSession session, Model model) {
+		//로그인 아닐때
+		if(session.getAttribute("loginMember")== null) {
+				return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		System.out.println(member);
+		model.addAttribute("member", member);
+		return "memberInfo";
+	}
 	//아이디 중복체크 액션
 	@PostMapping("/checkMemberId")
 	public String checkMemberId(HttpSession session, Model model, @RequestParam("memberIdCheck") String memberIdCheck) {
@@ -61,7 +72,7 @@ public class MemberController {
 			return "login";
 		}else {//로그인 성공경우
 			session.setAttribute("loginMember", retrunLoginMember);
-			return "redirect:/";
+			return "redirect:/home";
 		}
 	}
 	//로그인 아웃
