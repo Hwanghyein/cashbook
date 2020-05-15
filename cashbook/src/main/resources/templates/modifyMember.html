@@ -25,6 +25,10 @@ $(document).ready(function(){
 	
 	<form id="myform" method="post" action="/modifyMember">
 		<div class="form-group">
+				<label>사진</label>
+				<img th:src="@{'/upload/'+${member.memberPic}}" name="memberPic">
+			</div>
+			<div class="form-group">
 				<label>아이디:</label>
 				<input type="text" class="form-control" th:value="${member.memberId}" name="memberId"  readonly="readonly">
 				
@@ -51,7 +55,7 @@ $(document).ready(function(){
 			</div>
 			<div class="form-group">
 				<label>비밀번호:</label>
-				<input type="password" class="form-control"name="memberPw" >
+				<input type="password" class="form-control" name="memberPw" >
 				
 			</div>
 			<div class="form-group">

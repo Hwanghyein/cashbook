@@ -12,11 +12,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.UpdateMemberPw;
 
 @Controller
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	//비밀번호 변경
+	@GetMapping("/updateMemberPw")
+	public String updateMemberPw(HttpSession session, Model model) {
+		//로그인 아닐일때
+		if(session.getAttribute("loginMember")== null) {
+				return "redirect:/";
+		}
+		return "updateMemberPw";
+	}
+	@PostMapping("/updateMemberPw")
+	public String updateMemberPw(HttpSession session,UpdateMemberPw updateMemberPw) {
+		//로그인 아닐일때
+		if(session.getAttribute("loginMember")== null) {
+				return "redirect:/";
+		}
+		System.out.println(updateMemberPw);
+		memberService.modifyMemberByPw(updateMemberPw);
+		return "redirect:/memberInfo";
+	}
+	
 	//비밀번호 찾기 폼
 	@GetMapping("/findMemberPw")
 	public String finMemberPw(HttpSession session) {

@@ -40,11 +40,12 @@ body {
 <h1><span th:text="${session.loginMember.memberId}"></span>님 회원정보</h1>
 	<a th:href="@{/removeMember}" class="btn btn-primary" role="button">회원탈퇴</a>
 	<a th:href="@{/modifyMember}" class="btn btn-primary" role="button">회원정보수정</a>
+	<a th:href="@{/updateMemberPw}" class="btn btn-primary" role="button">비밀번호 변경</a>
 	<table class="table">
 		<tr>
 			<td>회원사진 </td> 
 			<td>
-			<img th:src="@{${'/upload/'+member.memberPic}}">
+			 <img th:src="@{'/upload/'+${member.memberPic}}"> 
 			</td>
 		</tr>
 		<tr>

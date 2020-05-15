@@ -4,9 +4,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.UpdateMemberPw;
 
 @Mapper
 public interface MemberMapper {
+	//비밀번호 변경
+	public int updateMemberByPw(UpdateMemberPw updateMemberPw);
 	//비밀번호 업데이트 
 	public int  updateMemberPw(Member member);
 	//비밀번호 찾기

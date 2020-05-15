@@ -3,6 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
+	<!-- 비밀번호 변경 쿼리문 -->
+	<update id="updateMemberByPw" parameterType="com.gdu.cashbook.vo.UpdateMemberPw">
+	UPDATE member
+	Set member_pw=PASSWORD(#{memberPw2})
+	WHERE member_id=#{memberId}
+	AND member_pw =PASSWORD(#{memberPw})
+	</update>
 	<!-- 
 	비밀번호 찾기 쿼리문
 	1. 사용자 입력한 id의 pw변경(랜덤문자열) update
