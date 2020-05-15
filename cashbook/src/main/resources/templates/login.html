@@ -45,7 +45,7 @@ $(document).ready(function(){
 <!-- 로그인 폼 -->
 	<div class="container">
 	<h1>로그인</h1>
-	<form id="loginForm" class="form-inline" method="post" action="/login">
+	<form id="loginForm" class="form-inline" method="post" th:action="@{/login}">
 			<label class="mb-2 mr-sm-2">member_id:</label>
 			<input type="text"  class="form-control mb-2 mr-sm-2" id="memberId" name="memberId" >
 		
@@ -55,10 +55,11 @@ $(document).ready(function(){
 				<span id="msgHelper" th:text="${msg}"></span>
 			</div>
 			<div>
-				<a href="">아이디가 기억나지 않아요</a>
-				<a href="">비밀번호가 기억나지 않아요</a>
+				<a th:href="@{/findMemberId}">아이디가 기억나지 않아요</a><!-- 이름,메일, 전화번호를 입력하면 아이디 출력 -->
+				<a th:href="@{/findMemberPw}">비밀번호가 기억나지 않아요</a><!-- 아이디와 이메일 :이메일로 관리자 변경한 비밀번호를 보낸준다. -->
 			</div>
 		<button type="button" id="btn" class="btn btn-outline-primary">로그인</button>
+		
 	</form>
 	</div>
 </body>

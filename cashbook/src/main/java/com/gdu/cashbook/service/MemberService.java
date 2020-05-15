@@ -1,5 +1,7 @@
 package com.gdu.cashbook.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,24 @@ public class MemberService {
 	private MemberMapper memberMapper;
 	@Autowired
 	private MemberidMapper memberidMapper;
+	//비밀번호 찾기 
+	public int getMemberPw(Member member) {
+		//pw추가
+		UUID uuid=UUID.randomUUID();		
+		String memberPw=uuid.toString().substring(0,8);
+		member.setMemberPw(memberPw);
+		int row = memberMapper.updateMemberPw(member);
+		if(row ==1) {
+			System.out.println(memberPw+"<--update memberPw");
+			//메일로 update성공한 랜덤 pw를 전송
+			//메일객체 new JavaMailSender();
+		}
+		return row;
+	}
+	//아이디 찾기 
+	public String getselectMemberIdByMember(Member member) {
+		return memberMapper.selectMemberIdByMember(member);
+	}
 	//회원탈퇴 
 	public void removeMember(Member member) {
 		Memberid memberid= new Memberid();

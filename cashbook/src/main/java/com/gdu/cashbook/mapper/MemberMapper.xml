@@ -3,6 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
+	<!-- 
+	비밀번호 찾기 쿼리문
+	1. 사용자 입력한 id의 pw변경(랜덤문자열) update
+	2. pw를 메일로 전송
+	 -->
+	<update id="updateMemberPw" parameterType="com.gdu.cashbook.vo.Member" >
+		UPDATE member 
+		SET member_pw=PASSWORD(#{memberPw})
+		WHERE member_id=#{memberId}
+		AND member_email=#{memberEmail}
+	</update> 
+	<select id="selectMemberByIdAndEmail" parameterType="com.gdu.cashbook.vo.Member" resultType="com.gdu.cashbook.vo.Member">
+		SELECT *
+		FROM member
+		WHERE member_id=#{memberId}
+		AND member_email=#{memberEmail}
+	</select>
+	<!-- 아이디찾기 쿼리문 -->
+	<select id="selectMemberIdByMember" parameterType="com.gdu.cashbook.vo.Member" resultType="String">
+		SELECT
+			CONCAT(SUBSTRING(member_id,1,3),'****')
+		FROM member
+		WHERE member_name=#{memberName}
+		AND member_phone=#{memberPhone}
+		AND member_email=#{memberEmail}
+	</select>
 	<!-- 회원탈퇴 쿼리문 -->
 	<delete id="deleteMember" parameterType="com.gdu.cashbook.vo.Member">
 		DELETE 
@@ -29,7 +55,8 @@
 		 	member_name as memberName,
 		 	member_addr as memberAddr,
 		 	member_phone as memberPhone,
-		 	member_email as memberEmail
+		 	member_email as memberEmail,
+		 	member_pic as memberPic
 		FROM member
 		WHERE member_id=#{memberId}
 	</select>
@@ -40,7 +67,8 @@
 		 	member_name as memberName,
 		 	member_addr as memberAddr,
 		 	member_phone as memberPhone,
-		 	member_email as memberEmail
+		 	member_email as memberEmail,
+		 	member_pic as memberPic
 		FROM member
 		WHERE member_id=#{memberId}
 	</select>
@@ -74,6 +102,7 @@
             member_addr,
             member_phone,
             member_email
+           
         ) VALUES (
             #{memberId},
             PASSWORD(#{memberPw}),
@@ -81,6 +110,7 @@
             #{memberAddr},
             #{memberPhone},
             #{memberEmail}
+            
         )
     </insert>
    

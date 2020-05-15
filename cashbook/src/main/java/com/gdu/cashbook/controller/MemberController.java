@@ -17,6 +17,52 @@ import com.gdu.cashbook.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	//비밀번호 찾기 폼
+	@GetMapping("/findMemberPw")
+	public String finMemberPw(HttpSession session) {
+		//로그인 중일때
+		if(session.getAttribute("loginMember")!= null) {
+			return "redirect:/";
+		}
+		return "findMemberPw";
+	}
+
+	@PostMapping("/findMemberPw")
+	public String finMemberPw(HttpSession session,Model model, Member member) {
+		//로그인 중일때
+		if(session.getAttribute("loginMember")!= null) {
+				return "redirect:/";
+		}
+		int row=memberService.getMemberPw(member);
+		String msg="아이디와 메일을 확인하세요";
+		if(row==1) {
+			msg="비밀번호를 입력한 메일로 전송하였습니다.";
+		}
+		model.addAttribute("msg",msg);
+		return "memberPwView";
+	}
+	
+	//아이디 찾기 폼
+	@GetMapping("/findMemberId")
+	public String finMemberId(HttpSession session) {
+		//로그인 중일때
+		if(session.getAttribute("loginMember")!= null) {
+				return "redirect:/";
+		}
+		return "findMemberId";
+	}
+	//아이디 찾기 액션
+	@PostMapping("/findMemberId")
+	public String finMemberId(HttpSession session,Model model, Member member) {
+		//로그인 중일때
+		if(session.getAttribute("loginMember")!= null) {
+				return "redirect:/";
+		}
+		String memberIdPart=memberService.getselectMemberIdByMember(member);
+		System.out.println(memberIdPart);
+		model.addAttribute("memberIdPart", memberIdPart);
+		return "memberIdView";
+	}
 	
 	//회원탈퇴 폼
 	@GetMapping("/removeMember")
