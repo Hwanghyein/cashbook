@@ -3,6 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.MemberMapper">
+	<!-- 파일 사진 가져오기 -->
+	<select id="selectMemberPic" parameterType="String" resultType="String">
+		SELECT member_pic
+		FROM member
+		WHERE member_id=#{memberId}		
+	</select>
 	<!-- 비밀번호 변경 쿼리문 -->
 	<update id="updateMemberByPw" parameterType="com.gdu.cashbook.vo.UpdateMemberPw">
 	UPDATE member
@@ -37,7 +43,7 @@
 		AND member_email=#{memberEmail}
 	</select>
 	<!-- 회원탈퇴 쿼리문 -->
-	<delete id="deleteMember" parameterType="com.gdu.cashbook.vo.Member">
+	<delete id="deleteMember" parameterType="com.gdu.cashbook.vo.LoginMember">
 		DELETE 
 		FROM member
 		WHERE member_id=#{memberId}
@@ -108,15 +114,16 @@
             member_name,
             member_addr,
             member_phone,
-            member_email
-           
+            member_email,
+            member_pic
         ) VALUES (
             #{memberId},
             PASSWORD(#{memberPw}),
             #{memberName},
             #{memberAddr},
             #{memberPhone},
-            #{memberEmail}
+            #{memberEmail},
+            #{memberPic}
             
         )
     </insert>

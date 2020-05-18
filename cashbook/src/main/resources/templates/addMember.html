@@ -68,7 +68,7 @@ $(document).ready(function(){
 <!-- 회원가입 폼  -->
 	<div class="container">
 		<h1>회원가입</h1>
-		<form id="idForm" method="post" action="/checkMemberId">
+		<form id="idForm" method="post" action="/checkMemberId" enctype="application/x-www-form-urlencoded">
 		<div class="form-group">
 			<label>아이디 중복 확인:</label>
 			<input type="text" class="form-control"  name="memberIdCheck" id="memberIdCheck">
@@ -76,7 +76,9 @@ $(document).ready(function(){
 			<span id="memberIdhelper" th:text="${msg}"></span>			
 		</div>
 		</form>
-		<form id ="myform" method="post" action="/addMember">
+		<!-- enctype="application/x-www-form-urlencoded" 문자형태로  전송 -->
+		<!-- enctype="multipart-form-data" 바이트형태로 전송 -->
+		<form id ="myform" method="post" action="/addMember" enctype="multipart/form-data">
 			<div class="form-group">
 				<label>아이디:</label>
 				<input type="text" class="form-control" th:value="${memberIdCheck}" name="memberId" id="memberId" readonly="readonly">
@@ -111,6 +113,10 @@ $(document).ready(function(){
 				<label>이메일:</label>
 				<input type="text" class="form-control"  name="memberEmail" id="memberEmail">
 				<span id="emailHelper"></span>
+			</div>
+			<div>
+				<label>사진</label>
+				<input type="file" name="memberPic" id="memberPic">
 			</div>
 			<div class="form-group">
 			<button type="button" id="btn" class="btn btn-primary">회원가입</button>

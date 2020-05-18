@@ -8,6 +8,8 @@ import com.gdu.cashbook.vo.UpdateMemberPw;
 
 @Mapper
 public interface MemberMapper {
+	//회원사진 가져오기 
+	public String selectMemberPic(String memberId);
 	//비밀번호 변경
 	public int updateMemberByPw(UpdateMemberPw updateMemberPw);
 	//비밀번호 업데이트 
@@ -17,7 +19,7 @@ public interface MemberMapper {
 	//아이디 찾기
 	public String selectMemberIdByMember(Member member);
 	//회원탈퇴
-	public int deleteMember(Member member);
+	public int deleteMember(LoginMember loginMember);
 	//회원정보수정
 	public int updateMember(Member member);
 	//회원정보 비밀번호포함해서  가져오기

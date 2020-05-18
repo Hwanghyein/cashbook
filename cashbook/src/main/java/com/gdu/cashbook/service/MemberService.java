@@ -1,16 +1,21 @@
 package com.gdu.cashbook.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gdu.cashbook.mapper.MemberMapper;
 import com.gdu.cashbook.mapper.MemberidMapper;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.MemberForm;
 import com.gdu.cashbook.vo.Memberid;
 import com.gdu.cashbook.vo.UpdateMemberPw;
 import com.gdu.cashbook.vo.LoginMember;
@@ -24,7 +29,8 @@ public class MemberService {
 	private MemberidMapper memberidMapper;
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
+	@Value("D:\\git-cashbook\\cashbook\\src\\main\\resources\\static\\upload\\")
+	private String path;
 	//비밀번호 변경
 	public int  modifyMemberByPw(UpdateMemberPw updateMemberPw) {
 		return memberMapper.updateMemberByPw(updateMemberPw);
@@ -54,16 +60,22 @@ public class MemberService {
 		return memberMapper.selectMemberIdByMember(member);
 	}
 	//회원탈퇴 
-	public void removeMember(Member member) {
+	public void removeMember(LoginMember loginMember) {
+		//1.멤버 사진 삭제하기
+		//1_1파일 이름 select member_pic from member;
+		String memberPic= memberMapper.selectMemberPic(loginMember.getMemberId());
+		File file = new File(path+memberPic);
+		if(file.exists()) {
+			file.delete();
+		}
+		//2.탈퇴한 아이디 저장
 		Memberid memberid= new Memberid();
-		memberid.setMemberId(member.getMemberId());
+		memberid.setMemberId(loginMember.getMemberId());
 		memberidMapper.insertMemberid(memberid);
-		memberMapper.deleteMember(member);
+		//3.탈퇴하기
+		memberMapper.deleteMember(loginMember);
+		
 	}
-	//회원탈퇴
-	//public int removeMember(Member member) {
-		//return memberMapper.deleteMember(member);
-	//}
 	//회원정보수정
 	public int modifyMember(Member member) {
 		return memberMapper.updateMember(member);
@@ -86,7 +98,42 @@ public class MemberService {
 		return memberMapper.selectLoginMember(loginMember);
 	}
 	//회원가입
-	public int addMember(Member member) {
-		return memberMapper.insertMember(member);
+	public int addMember(MemberForm memberForm) {
+		MultipartFile mf = memberForm.getMemberPic();
+		//확장자 필요
+		String originName= mf.getOriginalFilename();
+		System.out.println(originName);
+		//파일은 마지막 점 위치를 찾아주세요.
+		int lastDot=originName.lastIndexOf(".");
+		String extension = originName.substring(lastDot);
+		
+		//새로운 이름을 생성: UUID
+		String memberPic = memberForm.getMemberId()+extension;
+		//1.db에서 저장
+		Member member= new Member();
+		member.setMemberId(memberForm.getMemberId());
+		member.setMemberPw(memberForm.getMemberPw());
+		member.setMemberName(memberForm.getMemberName());
+		member.setMemberAddr(memberForm.getMemberAddr());
+		member.setMemberPhone(memberForm.getMemberPhone());
+		member.setMemberEmail(memberForm.getMemberEmail());
+		member.setMemberPic(memberPic);
+		System.out.println(member+"<--MemberService.addMember:member");
+		int row = memberMapper.insertMember(member);
+		
+		//2.파일 저장
+		//빈 파일 만들어줌 
+		File file = new File(path+"\\"+memberPic);
+		try {
+			mf.transferTo(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+			//Exception
+			//1.예외처리를 해야만 문법적으로 이상없는 예외
+			//2.예외처리를 코드에서 구현하지 않아도 아무문제없는 예외 RUNTIMException
+		} 
+		
+		return row;
 	} 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
 import com.gdu.cashbook.vo.Member;
+import com.gdu.cashbook.vo.MemberForm;
 import com.gdu.cashbook.vo.UpdateMemberPw;
 
 @Controller
@@ -98,8 +99,8 @@ public class MemberController {
 	}
 	//회원탈퇴 액션
 	@PostMapping("/removeMember")
-	public String configure(HttpSession session,Member member) {
-		memberService.removeMember(member);
+	public String configure(HttpSession session,LoginMember loginMember) {
+		memberService.removeMember(loginMember);
 		session.invalidate();
 		return "redirect:/";
 	}
@@ -200,13 +201,19 @@ public class MemberController {
 	}
 	//회원가입 액션
 	@PostMapping("/addMember")
-	public String addMember(HttpSession session,Member member) {//Commend 객체,도메인객체
+	public String addMember(HttpSession session,MemberForm memberForm) {//Commend 객체,도메인객체
 		//로그인 중일때
 		if(session.getAttribute("loginMember")!= null) {
 			return "redirect:/";
 		}
-		System.out.println(member);
-		memberService.addMember(member);
+		System.out.println(memberForm+"<--memberForm");
+		//파일은 png,jpg,gif만 업로드 가능
+		if(memberForm.getMemberPic() !=null) {
+			if(!memberForm.getMemberPic().getContentType().equals("image/png") || !memberForm.getMemberPic().getContentType().equals("image/jpg") || !memberForm.getMemberPic().getContentType().equals("image/gif")) {
+				return "redirect:/addMember";
+			}
+		}
+		memberService.addMember(memberForm);
 		return "redirect:/index";
 	}
 	
