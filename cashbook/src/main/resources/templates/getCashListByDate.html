@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h1 class="container">2020년 가계부</h1>
+<div class="container">
+<div style='text-align:center' th:text="${strToday}"></div>
+<table class="table">
+		<tr class="table-warning">
+		<th>&nbsp;</th>
+		<th>카테고리</th>
+		<th>수입</th>
+		<th>지출</th>
+		<th>장소</th>
+		<th>메모</th>
+		<th>삭제</th>
+		<th>수정</th>
+		</tr>
+		<tr th:each="cash,index  : ${cashList}">
+				<td th:text="${index.index}+1"></td>
+				<td th:text="${cash.categoryName}"></td>
+				
+				<td th:if="${cash.cashKind} == '수입'" th:text="${'+'+cash.cashPrice}"></td> 
+				<td th:unless="${cash.cashKind} == '수입'"></td>
+				<td th:if="${cash.cashKind} == '지출'" th:text="${'-'+cash.cashPrice}"></td> 
+				<td th:unless="${cash.cashKind} =='지출'"></td>
+				
+				<td th:text="${cash.cashPlace}"></td>
+				<td th:text="${cash.cashMemo}"></td>
+				<td><a href="">삭제</a></td>
+				<td><a href="">수정</a></td>
+		</tr>
+</table>
+</div>
+</body>
+</html>

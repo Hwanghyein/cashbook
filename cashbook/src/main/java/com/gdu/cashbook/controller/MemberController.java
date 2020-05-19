@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gdu.cashbook.service.MemberService;
 import com.gdu.cashbook.vo.LoginMember;
@@ -118,7 +119,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/modifyMember")
-	public String modifyMembmer(Member member) {
+	public String modifyMembmer(Member member, MultipartFile file ) {
 		memberService.modifyMember(member);
 		return "/memberInfo";
 	}
@@ -208,11 +209,11 @@ public class MemberController {
 		}
 		System.out.println(memberForm+"<--memberForm");
 		//파일은 png,jpg,gif만 업로드 가능
-		if(memberForm.getMemberPic() !=null) {
-			if(!memberForm.getMemberPic().getContentType().equals("image/png") || !memberForm.getMemberPic().getContentType().equals("image/jpg") || !memberForm.getMemberPic().getContentType().equals("image/gif")) {
-				return "redirect:/addMember";
-			}
-		}
+		//if(memberForm.getMemberPic() !=null) {
+			//if(!memberForm.getMemberPic().getContentType().equals("image/png") || !memberForm.getMemberPic().getContentType().equals("image/jpg") || !memberForm.getMemberPic().getContentType().equals("image/gif")) {
+				//return "redirect:/addMember";
+			//}
+		//}
 		memberService.addMember(memberForm);
 		return "redirect:/index";
 	}

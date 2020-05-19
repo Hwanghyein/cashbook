@@ -8,7 +8,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <style>
-.select_img img{width:500px; margin:20px 0;}
+.select_img img{width:200px; margin:20px 0;}
 </style>
 <script>
 $(document).ready(function(){
@@ -36,11 +36,26 @@ $('#memberPic').change(function(){
 	</div>
 	<div class="col-sm-8">
 	
-	<form id="myform" method="post" action="/modifyMember">
-			<div class="form-group">
-				<label>사진</label>
-			<img th:src="@{'/upload/'+${member.memberPic}}" name="memberPic">
+	<form id="myform" method="post" action="/modifyMember" enctype="multipart/form-data">
+			<div class="inputArea" >
+				<label for="memberPic">사진</label>
+			<input type="file" id="memberPic" name="file">
+			<div class="select_img">
+				<img th:src="@{'/upload/'+${member.memberPic}}">
+				<input type="hidden" name="memberPic" value="${member.memberPic}">
 			</div>
+			<script>
+			$("#memberPic").change(function(){
+				   if(this.files && this.files[0]) {
+				    var reader = new FileReader;
+				    reader.onload = function(data) {
+				     $(".select_img img").attr("src", data.target.result).width(15);        
+				    }
+				    reader.readAsDataURL(this.files[0]);
+				   }
+				  });
+ 				</script>
+			</div>	
 			<div class="form-group">
 				<label>아이디:</label>
 				<input type="text" class="form-control" th:value="${member.memberId}" name="memberId"  readonly="readonly">

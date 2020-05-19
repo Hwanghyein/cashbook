@@ -78,6 +78,7 @@ public class MemberService {
 	}
 	//회원정보수정
 	public int modifyMember(Member member) {
+		
 		return memberMapper.updateMember(member);
 	} 
 	//회원정보 가져오기
