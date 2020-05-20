@@ -3,6 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.CashMapper">
+	<select id="selectDayAndPirceList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.DayAndPrice">
+		SELECT 
+			DAY(cash_date)as day,
+			Sum(CASE WHEN cash_kind='수입' Then cash_price WHEN cash_kind='지출' then -cash_price End) as price
+		From cash 
+		WHERE YEAR(cash_date)=#{year}
+		AND MONTH(cash_date)=#{month}
+		AND member_id=#{memberId}
+		GROUP BY DAY(cash_date)
+	</select>
+	<!-- 총 합계 -->
+	<select id="selectCashKindSum"  parameterType="com.gdu.cashbook.vo.Cash" resultType="int">
+		SELECT 
+		(SELECT SUM(cash_price)
+		From cash
+		Where member_id=#{memberId} 
+		AND cash_date=#{cashDate}
+		AND cash_kind='수입')
+		-
+		(SELECT SUM(cash_price)
+		From cash
+		Where member_id=#{memberId} 
+		AND cash_date=#{cashDate}
+		AND cash_kind='지출')
+		FROM dual
+	</select>
 	<!-- 가계부 리스트 출력 -->
 	<select id="selectCashListByDate" parameterType="com.gdu.cashbook.vo.Cash" resultType="com.gdu.cashbook.vo.Cash">
 		SELECT

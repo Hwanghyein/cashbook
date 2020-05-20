@@ -1,5 +1,7 @@
 package com.gdu.cashbook.vo;
 
+import java.time.LocalDate;
+
 public class Cash {
 	private int cashNo;
 	private String memberId;
@@ -63,5 +65,8 @@ public class Cash {
 				+ ", categoryName=" + categoryName + ", cashPrice=" + cashPrice + ", cashPlace=" + cashPlace
 				+ ", cashMemo=" + cashMemo + "]";
 	}
+	
+	
+	
 	
 }

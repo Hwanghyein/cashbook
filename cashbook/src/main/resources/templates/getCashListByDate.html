@@ -7,11 +7,30 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+
+#aside{
+ 		width: 200px;
+        height: 3500px;
+        position: fixed;
+        background: blue;
+        overflow: hidden;
+        float: left;
+        color: white;
+
+          
+}
+</style>  
 </head>
 <body>
+<div id="aside" th:include="/include/menu::sidemenu"></div>
 <h1 class="container">2020년 가계부</h1>
 <div class="container">
-<div style='text-align:center' th:text="${strToday}"></div>
+<div style='text-align:center' th:text="${day}"></div>
+<div>
+	<a th:href="@{/getCashListByDate(day=${day.plusDays(-1)})}">이전</a>
+	<a th:href="@{/getCashListByDate(day=${day.plusDays(+1)})}">다음</a>
+</div>
 <table class="table">
 		<tr class="table-warning">
 		<th>&nbsp;</th>
@@ -34,10 +53,12 @@
 				
 				<td th:text="${cash.cashPlace}"></td>
 				<td th:text="${cash.cashMemo}"></td>
-				<td><a href="">삭제</a></td>
+				<td><a href="@{/removeCash(cashNo=${cash.cashNo})}">삭제</a></td>
 				<td><a href="">수정</a></td>
 		</tr>
 </table>
+	<a href="@{/addCash}">입력</a>
+	<div>수입+지출 합계:<span th:text="${cashKindSum}"></span></div>
 </div>
 </body>
 </html>

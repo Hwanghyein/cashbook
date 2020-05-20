@@ -77,7 +77,42 @@ public class MemberService {
 		
 	}
 	//회원정보수정
-	public int modifyMember(Member member) {
+	public int modifyMember(MemberForm memberForm) {
+		String memberId=memberForm.getMemberId();
+		String memberPw= memberForm.getMemberPw();
+		LoginMember loginMember =new LoginMember();
+		loginMember.setMemberId(memberId);
+		loginMember.setMemberPw(memberPw);
+		Member member = memberMapper.selectMemberOne(loginMember);
+		
+		MultipartFile mf = memberForm.getMemberPic();
+		String originName= mf.getOriginalFilename();
+		System.out.println(originName);
+		if(originName.equals("")) {
+			System.out.println("사진 없음");
+		}else {
+			if(member.getMemberPic().equals("dafauit.jpg")) {
+				System.out.println(member.getMemberPic()+"기존이미지");
+			}else {
+				File update = new File(path +"//"+member.getMemberPic());
+	            try {
+	               update.delete();
+	            }catch(Exception e){
+	               e.printStackTrace();
+	            }
+			}
+			int lastDot=originName.lastIndexOf(".");
+			String extension = originName.substring(lastDot);
+			String memberPic = memberForm.getMemberId()+extension;
+			member.setMemberPic(memberPic);
+			File file = new File(path+"\\"+memberPic);
+			try {
+				mf.transferTo(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException();
+			} 
+		}
 		
 		return memberMapper.updateMember(member);
 	} 

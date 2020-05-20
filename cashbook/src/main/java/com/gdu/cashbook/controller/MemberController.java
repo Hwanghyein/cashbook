@@ -119,9 +119,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("/modifyMember")
-	public String modifyMembmer(Member member, MultipartFile file ) {
-		memberService.modifyMember(member);
-		return "/memberInfo";
+	public String modifyMembmer(MemberForm memberForm, MultipartFile file ) {
+		memberService.modifyMember(memberForm);
+		return "redirect:/memberInfo";
 	}
 	//회원정보 폼으로 이동
 	@GetMapping("/memberInfo")
