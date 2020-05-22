@@ -17,6 +17,21 @@ import com.gdu.cashbook.vo.DayAndPrice;
 public class CashService {
 	@Autowired
 	private CashMapper cashMapper;
+	public int modifyCash(Cash cash){
+		return cashMapper.updateCash(cash);
+	}
+	//가계부 정보 가져오기
+	public Cash getCash(int cashNo) {
+		return cashMapper.selectCash(cashNo);
+	} 
+	//가계부 다이어리 삭제
+	public void removeCash(int cashNo) {
+		cashMapper.deleteCash(cashNo);
+	}
+	//가계부 입력
+	public int addCash(Cash cash) {
+		return cashMapper.insertCash(cash);
+	}
 	//년와월 수입,지출 총액 출력
 	public List<DayAndPrice> getCashandPriceList(String memberId,int year,int month){
 		Map<String, Object> map = new HashMap<>();
@@ -39,5 +54,6 @@ public class CashService {
 		map.put("cashKindSum", cashKindSum);
 		return map;
 	}
+	
 	
 }

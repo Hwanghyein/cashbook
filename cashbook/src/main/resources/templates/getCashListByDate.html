@@ -34,6 +34,7 @@
 <table class="table">
 		<tr class="table-warning">
 		<th>&nbsp;</th>
+		<th>번호</th>
 		<th>카테고리</th>
 		<th>수입</th>
 		<th>지출</th>
@@ -44,6 +45,7 @@
 		</tr>
 		<tr th:each="cash,index  : ${cashList}">
 				<td th:text="${index.index}+1"></td>
+				<td th:text="${cash.cashNo}"></td>
 				<td th:text="${cash.categoryName}"></td>
 				
 				<td th:if="${cash.cashKind} == '수입'" th:text="${'+'+cash.cashPrice}"></td> 
@@ -53,11 +55,11 @@
 				
 				<td th:text="${cash.cashPlace}"></td>
 				<td th:text="${cash.cashMemo}"></td>
-				<td><a href="@{/removeCash(cashNo=${cash.cashNo})}">삭제</a></td>
-				<td><a href="">수정</a></td>
+				<td><a th:href="@{/removeCash(cashNo=${cash.cashNo})}">삭제</a></td>
+				<td><a th:href="@{/modifyCash(cashNo=${cash.cashNo})}">수정</a></td>
 		</tr>
 </table>
-	<a href="@{/addCash}">입력</a>
+	<a th:href="@{/addCash}">입력</a>
 	<div>수입+지출 합계:<span th:text="${cashKindSum}"></span></div>
 </div>
 </body>

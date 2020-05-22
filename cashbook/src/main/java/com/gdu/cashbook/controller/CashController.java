@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook.service.CashService;
@@ -25,9 +26,55 @@ import com.gdu.cashbook.vo.LoginMember;
 public class CashController {
 	@Autowired
 	private CashService cashService;
+	//가계부 다이어리 삭제
+	@GetMapping("/removeCash")
+	public String removeCash(HttpSession session,int cashNo) {
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+		}
+		cashService.removeCash(cashNo);
+		return "redirect:/getCashListByDate";
+	}
+	//가계부 수정
+	@GetMapping("/modifyCash")
+	public String modifyCash(HttpSession session,Model model,int cashNo) {
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+	}
+		Cash cash = cashService.getCash(cashNo);
+		model.addAttribute("cash", cash);
+		System.out.println(cash);
+		return "modifyCash";
+	}
+	@PostMapping("/modifyCash")
+	public String modifyCash(HttpSession session,Cash cash) {
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+		}
+		cashService.modifyCash(cash);
+		return "redirect:/getCashListByDate";
+	}
+	//가계부 입력
+	@GetMapping("/addCash")
+	public String addCash(HttpSession session,Model model) {
+		
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+		}
+		
+		return "addCash";
+	}
+	@PostMapping("/addCash")
+	public String add(HttpSession session,Cash cash,@RequestParam(value="day",required=false) @DateTimeFormat(pattern="yyyy-MM-dd")LocalDate day) {
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+		}
+		cashService.addCash(cash);
+		return "redirect:/getCashListByDate";
+	}
 	
 	//달력 출력
-	@GetMapping("getCashListByMonth")
+	@GetMapping("/getCashListByMonth")
 	public String getCashListByMonth(HttpSession session,Model model,@RequestParam(value="day",required=false) @DateTimeFormat(pattern="yyyy-MM-dd")LocalDate day) {
 		
 		if(session.getAttribute("loginMember")== null) {

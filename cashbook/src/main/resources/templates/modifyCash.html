@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<script>
+$(document).ready(function(){
+	$('#btn').click(function(){	
+		$('#myform').submit();
+	});
+});
+
+</script>
+<body>
+<div class="container">
+	<h1 align="center">가계부 수정</h1>
+	<form id="myform" method="post" action="/modifyCash" >
+			<div class="form-group">
+				<input type="hidden" class="form-control" th:value="${cash.cashNo}" name="cashNo" readonly="readonly">
+			</div>
+		<div class="form-group">
+				<label>회원아이디</label>
+				<input type="text" class="form-control" th:value="${cash.memberId}" name="memberId" readonly="readonly">
+		</div>
+		
+		<div class="form-group">
+				<label>날짜</label>
+				<input type="date" class="form-control" th:value="${cash.cashDate}" name="cashDate">
+		</div>
+		
+		<div class="form-group">
+				<label>수입/지출</label>
+				<select name="cashKind" class="form-control" th:value="${cash.cashKind}">
+				<option th:value="수입">수입</option>
+				<option th:value="지출">지출</option>
+			</select>
+		</div>
+		
+		<div class="form-group">
+				<label>카테고리</label>
+				<select name="categoryName" class="form-control" th:value="${cash.categoryName}" >
+				<option th:value="월급">월급</option>
+				<option th:value="쇼핑">쇼핑</option>
+				<option th:value="오락">오락</option>
+				</select>
+				
+		</div>
+		
+		<div class="form-group">
+				<label>금액</label>
+				<input type="text" class="form-control" th:value="${cash.cashPrice}" name="cashPrice" >
+		</div>
+		
+		<div class="form-group">
+				<label>장소</label>
+				<input type="text" class="form-control" th:value="${cash.cashPlace}"  name="cashPlace" >
+		</div>
+		
+		<div class="form-group">
+				<label>메모</label>
+				<input type="text" class="form-control" th:value="${cash.cashMemo}" name="cashMemo">
+		</div>
+		<br>
+		<div class="form-group">
+				
+				<button id="btn" type="button" class="btn btn-primary btn-lg btn-block">수정</button>
+		</div>
+	</form>
+</div>	
+</body>
+</html>

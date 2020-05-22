@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+	$('#btn').click(function(){
+			$('#myForm').submit();
+	});
+});
+</script>
+<style>
+
+#aside{
+ 		width: 200px;
+        height: 3500px;
+        position: fixed;
+        background: blue;
+        overflow: hidden;
+        float: left;
+        color: white;
+
+          
+}
+</style>    
+</head>
+<body>
+<h1>2020년 가계부</h1>
+<div id="aside" th:include="/include/menu::sidemenu"></div>
+<div class="container">
+<h3>수입/수출 입력</h3>
+	<form id="myForm" method="post" th:action="@{/addCash}">
+		<div>
+		<label class="mb-2 mr-sm-2">회원아이디</label>
+		<input type="text"class="form-control mb-2 mr-sm-2"th:value="${session.loginMember.memberId}" name="memberId">
+		</div>
+		<div>
+			 <label class="mb-2 mr-sm-2">날짜</label>
+			<input type="date" class="form-control mb-2 mr-sm-2"  name="cashDate">
+		</div>
+		<div >
+		<label class="mb-2 mr-sm-2">카테고리</label>
+		<select name="categoryName">
+				<option th:value="월급">월급</option>
+				<option th:value="쇼핑">쇼핑</option>
+				<option th:value="오락">오락</option>
+			</select>
+		</div>
+		<label>수입/지출</label>
+			<select name="cashKind">
+				<option th:value="수입">수입</option>
+				<option th:value="지출">지출</option>
+			</select>
+		<div >
+		<label class="mb-2 mr-sm-2">금액</label>
+		<input type="text" class="form-control mb-2 mr-sm-2" name="cashPrice">
+		</div>
+	
+		<div >
+			<label class="mb-2 mr-sm-2">장소</label>
+		<input type="text"class="form-control mb-2 mr-sm-2" name="cashPlace">
+		</div>
+	
+		<div>
+			<label class="mb-2 mr-sm-2">메모</label>
+		<textarea class="form-control" rows="5" name="cashMemo"></textarea>
+		</div>
+	
+		<div>
+			<button id="btn" type="button" class="btn btn-primary">입력</button>
+		</div>
+</form>
+</div>
+</body>
+</html>

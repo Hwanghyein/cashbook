@@ -3,6 +3,41 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.CashMapper">
+	<!--cash 정보 가져오기 -->
+	<select id ="selectCash" parameterType="int"  resultType="com.gdu.cashbook.vo.Cash">
+		SELECT
+			cash_no as cashNo,
+			member_id as memberId,
+			cash_date as cashDate,
+			cash_kind as cashKind,
+			category_name as categoryName,
+			cash_price as cashPrice,
+			cash_place as cashPlace,
+			cash_memo as cashMemo
+		FROM cash
+		WHERE cash_no=#{cashNo}
+	</select>
+	<!-- 수출/수입 입력 -->
+	<insert id="insertCash" parameterType="com.gdu.cashbook.vo.Cash">
+		 INSERT INTO cash(
+            member_id,
+            cash_date,
+            cash_kind,
+            category_name,
+            cash_price,
+            cash_place,
+            cash_memo
+        ) VALUES (
+            #{memberId},
+            #{cashDate},
+            #{cashKind},
+            #{categoryName},
+            #{cashPrice},
+            #{cashPlace},
+            #{cashMemo}
+        )
+	</insert>
+	<!--년도와 몇달 일별 출력 -->
 	<select id="selectDayAndPirceList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.DayAndPrice">
 		SELECT 
 			DAY(cash_date)as day,
@@ -16,15 +51,15 @@
 	<!-- 총 합계 -->
 	<select id="selectCashKindSum"  parameterType="com.gdu.cashbook.vo.Cash" resultType="int">
 		SELECT 
-		(SELECT SUM(cash_price)
+		(SELECT IFNULL (SUM(cash_price),0)
 		From cash
-		Where member_id=#{memberId} 
+		Where member_id=#{memberId}
 		AND cash_date=#{cashDate}
 		AND cash_kind='수입')
 		-
-		(SELECT SUM(cash_price)
+		(SELECT IFNULL (SUM(cash_price),0)
 		From cash
-		Where member_id=#{memberId} 
+		Where member_id=#{memberId}
 		AND cash_date=#{cashDate}
 		AND cash_kind='지출')
 		FROM dual
@@ -32,6 +67,7 @@
 	<!-- 가계부 리스트 출력 -->
 	<select id="selectCashListByDate" parameterType="com.gdu.cashbook.vo.Cash" resultType="com.gdu.cashbook.vo.Cash">
 		SELECT
+			cash_no as cashNo,
 			cash_kind as cashKind,
 			category_name as categoryName,
 			cash_price as cashPrice,
@@ -51,12 +87,12 @@
 			cash_price=#{cashPrice},
 			cash_place =#{cashPlace},
 			cash_memo =#{cashMemo}
-		WHERE member_id=#{memberId}	
+		WHERE cash_no=#{cashNo}	
 	</update>
 	<!-- 가계부 삭제 -->
-	<delete id="deleteCash" parameterType="com.gdu.cashbook.vo.Cash">
+	<delete id="deleteCash" parameterType="int">
 		DELETE
 		FROM cash
-		WHERE member_id =#{memberId}
+		WHERE cash_no=#{cashNo}
 	</delete>
 </mapper>
