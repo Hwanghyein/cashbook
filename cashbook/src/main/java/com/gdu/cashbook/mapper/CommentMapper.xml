@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdu.cashbook.mapper.CommentMapper">
+<!-- 댓글 삭제 -->
+<delete id="deleteComment" parameterType="int">
+	Delete 
+	From comment
+  	WHERE comment_no=#{commmentNo}
+</delete>
+<!-- 댓글 수정 -->
+<update id="">
+</update>
+<!-- 댓글 입력 -->
+<insert id="insertComment" parameterType="com.gdu.cashbook.vo.Comment">
+	INSERT INTO comment(
+		member_id,
+		board_no,
+		comment_content,
+		comment_date
+	) 
+	VALUES(
+		#{memberId},
+		#{boardNo},
+		#{commentContent},
+		Now()
+	)
+</insert>
+<!-- 댓글 정보 가져오기 -->
+<select id="selectCommentOne">
+	SELECT
+		comment_no commentNo,
+    	member_id memberId,
+    	board_no boardNo,
+    	comment_content commentContent,
+    	comment_date commentDate
+    From comment
+    WHERE comment_no =#{commentNo}
+</select>
+<!-- 댓글 리스트 출력 -->
+<select id="selectCommentList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.Comment">
+	 SELECT 
+    	comment_no commentNo,
+    	member_id memberId,
+    	board_no boardNo,
+    	comment_content commentContent,
+    	comment_date commentDate
+    From comment
+    WHERE board_no=#{boardNo}
+   	limit #{startRow},#{rowPerPage}
+</select>
+<!-- 댓글 리스트 총 합계  -->
+<select id="selectCommentCount" resultType="int">
+		SELECT
+		count(*)
+		From comment
+	</select>
+</mapper>

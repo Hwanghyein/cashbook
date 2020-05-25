@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        position: relative;
+        overflow-y: auto;
+    }
+#aside{
+ 		width: 200px;
+        height: 3000px;
+        position: fixed;
+        background: blue;
+        overflow: hidden;
+        float: left;
+        color: white;
+
+          
+}
+</style>   
+</head>
+<body>
+
+<div class="container">
+<h1>BoardList</h1>
+<a th:href="@{/addBoard}">입력</a>
+	<table class="table">
+		<tr>
+			<th>boardNo</th>
+			<th>memberId</th>
+			<th>boardTitle</th>
+			<th>boardDate</th>
+		</tr>
+		<tr th:each="board : ${boardlist}">
+			<td th:text="${board.boardNo}"></td>
+			<td><a th:href="@{/boardOne(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
+			<td th:text="${board.memberId}"></td>
+			<td th:text="${board.boardDate}"></td>
+		</tr>
+	</table>
+	<div>
+		<a th:href="@{/boardList(currentPage=1)}">처음</a>
+		<th:if test="${currentPage>1}">
+			<a th:href="@{/boardList(currentPage=${currentPage-1})}">이전</a>
+		</th:if >
+		<th:if test="${currentPage<lastPage}">
+			<a th:href="@{/boardList(currentPage=${currentPage+1})}">다음</a>
+		</th:if>
+		<a th:href="@{/boardList(currentPage=${lastPage})}">마지막</a>
+	</div>
+</div>
+</body>
+</html>

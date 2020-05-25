@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+	$('#btn').click(function(){	
+		$('#myform').submit();
+	});
+});
+
+</script>   
+</head>
+<body>
+
+<div class="container">
+<h1>게시판 수정</h1>
+	<form id="myform" method="post" action="/modifyBoard">
+		<div class="form-group">
+				<input type="hidden" class="form-control" th:value="${board.boardNo}" name="boardNo" readonly="readonly">
+			</div>
+		<div class="form-group">
+				<label>회원아이디</label>
+				<input type="text" class="form-control" th:value="${board.memberId}" name="memberId" readonly="readonly">
+		</div>
+		
+		<div class="form-group">
+				<label>제목</label>
+				<input type="text" class="form-control" th:value="${board.boardTitle}" name="boardTitle">
+		</div>
+		
+		
+		<div class="form-group">
+				<label>내용</label>
+				<input type ="text" class="form-control" th:value="${board.boardContent}" name="boardContent" >
+		</div>
+		<br>
+		<div class="form-group">
+				
+				<button id="btn" type="button" class="btn btn-primary btn-lg btn-block">수정</button>
+		</div>
+	</form>
+</div>
+</body>
+</html>

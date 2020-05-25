@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+	$('#btn').click(function(){
+			$('#myform').submit();
+	});
+});
+</script>  
+</head>
+<body>
+<h1>게시판 상세정보</h1>
+<!-- 게시판 상세정보 테이블 -->
+<table class="table">
+		<tr>	
+			<td>번호</td>
+			<td th:text="${board.boardNo}"></td>
+		</tr>
+		<tr>	
+			<td>제목</td>
+			<td th:text="${board.boardTitle}"></td>
+		</tr>
+		<tr>	
+			<td>회원아이디</td>
+			<td th:text="${board.memberId}"></td>
+			<td>시간데이터</td>
+			<td th:text="${board.boardDate}"></td>
+		</tr>
+		<tr>
+			<td>내용</td>
+			<td th:text="${board.boardContent}"></td>
+		</tr>	
+			<tr>
+			<td><a th:href="@{/boardList}" class="btn btn-primary" role="button">목록</a></td>
+			<td><a th:href="@{/modifyBoard(boardNo=${board.boardNo})}"class="btn btn-primary" role="button">수정</a></td>
+			<td><a th:href="@{/removeBoard(boardNo=${board.boardNo})(commentNo=${board.commentNo})}" class="btn btn-primary" role="button">삭제</a></td>
+			<tr>
+	</table>
+	<!-- 댓글 입력 -->
+	<form id="myform" method="post" action="/addComment">
+		<input type="hidden" th:value="${session.loginMember.memberId}" name="memberId">
+		<input type="hidden" th:value="${board.boardNo}"name="boardNo">
+		<input type="text" name="commentContent"><button  id="btn" type="button">입력</button>
+	</form>
+	<!-- 댓글 테이블 -->
+	<table border="1">
+		<tr th:each="comment : ${commentList}" >
+			<td th:text="${comment.memberId}"></td>
+			<td th:text="${comment.commentContent}"></td>
+			<td th:text="${comment.commentDate}"></td>
+			<td><a th:href="@{/(boardNo=${board.boardNo})}"class="btn btn-primary" role="button">수정</a></td>
+			<td><a th:href="@{/removeComment(commentNo=${comment.commentNo})}" class="btn btn-primary" role="button">삭제</a></td>
+		</tr>
+	</table>
+	<!--
+	<div>
+		<a th:href="@{/comment(currentPage=1)}">처음</a>
+		<th:if test="${currentPage>1}">
+			<a th:href="@{/comment(currentPage=${currentPage-1})}">이전</a>
+		</th:if >
+		<th:if test="${currentPage<lastPage}">
+			<a th:href="@{/comment(currentPage=${currentPage+1})}">다음</a>
+		</th:if>
+		<a th:href="@{/comment(currentPage=${lastPage})}">마지막</a>
+	</div>
+	-->
+</body>
+</html>

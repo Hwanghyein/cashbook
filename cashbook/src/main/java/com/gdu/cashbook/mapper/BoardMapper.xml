@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdu.cashbook.mapper.BoardMapper">
+<!-- 게시판 수정 -->
+<update id="updateBoard"  parameterType="com.gdu.cashbook.vo.Board">
+	Update board 
+  	set board_title=#{boardTitle}, 
+  		board_content=#{boardContent}
+  	WHERE board_no=#{boardNo}
+</update>	
+<!-- 댓글 삭제 -->
+<delete id="deleteCommentNo" parameterType="com.gdu.cashbook.vo.Board">
+	Delete 
+	From board
+  	WHERE comment_no=#{commentNo}
+</delete>
+<!-- 게시판 삭제 -->
+<delete id="deleteBoardNo" parameterType="com.gdu.cashbook.vo.Board">
+	Delete 
+	From board
+  	WHERE board_no=#{boardNo}
+</delete>
+<!-- 게시판 입력 -->
+<insert id="insertBoard" parameterType="com.gdu.cashbook.vo.Board">
+	INSERT INTO board(
+		member_id,
+		board_title, 
+		board_content,
+		board_date
+	) 
+	VALUES(
+		#{memberId},
+		#{boardTitle},
+		#{boardContent},
+		Now()
+	)
+</insert>
+<!-- 게시판 정보 가져오기 -->
+<select id="selectBoardOne" parameterType="int" resultType="com.gdu.cashbook.vo.Board">
+	SELECT
+    	board_no boardNo,
+    	member_id memberId,
+    	board_title boardTitle,
+    	board_content boardContent,
+    	board_date boardDate
+    FROM board
+    WHERE board_no=#{boardNo}
+</select>
+<!-- 게시판 출력 -->
+<select id="selectBoardList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.Board">
+	 select 
+    	board_no boardNo,
+    	member_id memberId,
+    	board_title boardTitle,
+    	board_content boardContent,
+    	board_date boardDate
+    from board
+   	limit #{startRow},#{rowPerPage}
+</select>
+<!-- 게시판에 페이지 카운트  -->
+<select id="selectBoardCount" resultType="int">
+		select
+		count(*)
+		from board
+	</select>
+</mapper>
