@@ -51,32 +51,42 @@
   
 </head>
 <body>
-	<h1 class="container">월별 가계부 관리</h1>
+	<h1 class="container">2020년 가계부</h1>
 	<div id="aside" th:include="/include/menu::sidemenu"></div>
 	<div class="container">
-	<h3 th:text="${#temporals.format(day,'yyyy-MM')}"></h3>
+	<h3>2020년 월별 비교</h3>
+	<!-- 
 	<div>
 	<a th:href="@{/getCashListByMonth(day=${day.plusMonths(-1)})}">이전</a>
 	<a th:href="@{/getCashListByMonth(day=${day.plusMonths(+1)})}">다음</a>
 	</div>
-	<div class="gd-left gd-clear gd-title ">일</div>
-	<div class="gd-left gd-title">월</div>
-	<div class="gd-left gd-title">화</div>
-	<div class="gd-left gd-title">수</div>
-	<div class="gd-left gd-title">목</div>
-	<div class="gd-left gd-title">금</div>
-	<div class="gd-left gd-title">토</div>	
+	-->
+	<table class="table" border="1">
+		<tr>
+		<th>1월</th>
+		<th>2월</th>
+		<th>3월</th>
+		<th>4월</th>
+		<th>5월</th>
+		<th>6월</th>
+		<th>7월</th>
+		<th>8월</th>
+		<th>9월</th>
+		<th>10월</th>
+		<th>11월</th>
+		<th>12월</th>
+		</tr>
+		<tr th:each="year:${yearList}">
+			<td th:text="${year}"></td>
+		</tr>
+	</table>
+	<!-- 
 	<div th:each="i,index : ${#numbers.sequence(1,lastDay+(firstDayOfWeek-1))}"  th:class="${index.index%7} == 0 ? 'gd-clear gd-left':'gd-left' ">
 	<div  th:text="${i-(firstDayOfWeek-1)} >0 ? ${i-(firstDayOfWeek-1)} : '' "></div>
 	<!-- 날짜 -->
 	<!--  <a th:href="@{/getCashListByDate(day=${})}"  th:text="${i-(firstDayOfWeek-1)} >0 ? ${i-(firstDayOfWeek-1)} : '' "></a> -->
-	<div th:each="dp : ${dayAndPriceList}">
-		<span th:if="${i-(firstDayOfWeek-1)}==${dp.day}">
-			<span th:class="${dp.price}>=0 ? 'gd-blue':'gd-red'" th:text="${dp.price}"></span>
-		</span>
 	</div>
-	</div>
-		
 </div>	
+
 </body>
 </html>

@@ -17,6 +17,14 @@ import com.gdu.cashbook.vo.Comment;
 public class CommentService {
 	@Autowired
 	private CommentMapper commentMapper;
+	//댓글 수정
+	public int modifyComment(Comment comment) {
+		return commentMapper.updateComment(comment);
+	}
+	//댓글 정보 가져오기
+	public Comment getCommentOne(int commentNo) {
+		return commentMapper.selectCommentOne(commentNo);
+	}
 	//댓글 삭제
 	public int removeComment(int commentNo) {
 		return commentMapper.deleteComment(commentNo);

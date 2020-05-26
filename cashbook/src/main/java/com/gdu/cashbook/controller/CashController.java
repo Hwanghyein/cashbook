@@ -26,6 +26,26 @@ import com.gdu.cashbook.vo.LoginMember;
 public class CashController {
 	@Autowired
 	private CashService cashService;
+	//년도 월별 비교
+	@GetMapping("/getYearList")
+	public String getYearList(HttpSession session,Model model,@RequestParam(value="day",required=false) @DateTimeFormat(pattern="yyyy")LocalDate day) {
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+		}
+		
+		Calendar yDay = Calendar.getInstance();
+		
+		
+		
+		String memberId=((LoginMember)session.getAttribute("loginMember")).getMemberId();
+		int year=yDay.get(Calendar.YEAR);
+		int month=yDay.get(Calendar.MONTH)+1;
+		
+		List<Cash>  yearList = cashService.getYearList(memberId, year, month);
+		model.addAttribute(" yearList", yearList);
+		System.out.println(yearList+"<--yearList");
+		return "getYearList";
+	}
 	//가계부 다이어리 삭제
 	@GetMapping("/removeCash")
 	public String removeCash(HttpSession session,int cashNo) {

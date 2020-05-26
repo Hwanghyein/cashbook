@@ -17,6 +17,14 @@ import com.gdu.cashbook.vo.DayAndPrice;
 public class CashService {
 	@Autowired
 	private CashMapper cashMapper;
+	
+	public List<Cash> getYearList(String memberId,int year,int month){
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("year", year);
+		map.put("month", month);
+		return cashMapper.selectYearList(map);
+	}
 	public int modifyCash(Cash cash){
 		return cashMapper.updateCash(cash);
 	}

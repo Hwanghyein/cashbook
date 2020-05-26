@@ -13,8 +13,8 @@
 <!-- 댓글 삭제 -->
 <delete id="deleteCommentNo" parameterType="com.gdu.cashbook.vo.Board">
 	Delete 
-	From board
-  	WHERE comment_no=#{commentNo}
+	From comment
+  	WHERE board_no=#{boardNo}
 </delete>
 <!-- 게시판 삭제 -->
 <delete id="deleteBoardNo" parameterType="com.gdu.cashbook.vo.Board">

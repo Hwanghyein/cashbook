@@ -31,7 +31,7 @@ public class BoardService {
 	}
 	//게시판 삭제
 	public void removeBoard(Board board) {
-		boardMapper.deleteCommentNo(board);
+	boardMapper.deleteCommentNo(board);
 	 boardMapper.deleteBoardNo(board);
 	}
 	//게시판 입력

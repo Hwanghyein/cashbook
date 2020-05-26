@@ -100,11 +100,11 @@
   	<select id="selectLoginMember" parameterType="com.gdu.cashbook.vo.LoginMember" resultType="com.gdu.cashbook.vo.LoginMember" >
 	   	SELECT
 	   		member_id as memberId,
-	   		member_pw as memberPw
+	   		member_pw as memberPw,
+	   		member_level as memberLevel
 	   	FROM member
 	   	WHERE member_id=#{memberId}
 	   	AND member_pw=PASSWORD(#{memberPw})
-   		
     </select>
    
     <!-- 회원가입 쿼리문 -->

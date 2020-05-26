@@ -11,6 +11,10 @@ import com.gdu.cashbook.vo.Comment;
 
 @Mapper
 public interface CommentMapper {
+	//댓글 수정
+	public int updateComment(Comment comment);
+	//댓글 가져오기
+	public Comment selectCommentOne(int commentNo);
 	//댓글 삭제
 	public int deleteComment(int commentNo);
 	//댓글 리스트 출력

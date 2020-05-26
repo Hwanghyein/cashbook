@@ -35,7 +35,7 @@ body {
 </style>   
 </head>
 <body>
-
+<div id="aside" th:include="/include/menu::sidemenu"></div>
 <div class="container">
 <h1>BoardList</h1>
 <a th:href="@{/addBoard}">입력</a>
@@ -48,7 +48,7 @@ body {
 		</tr>
 		<tr th:each="board : ${boardlist}">
 			<td th:text="${board.boardNo}"></td>
-			<td><a th:href="@{/boardOne(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
+			<td th:if="${session.loginMember.memberId == board.memberId || session.loginMember.memberLevel ==0}"><a th:href="@{/boardOne(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
 			<td th:text="${board.memberId}"></td>
 			<td th:text="${board.boardDate}"></td>
 		</tr>

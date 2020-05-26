@@ -10,6 +10,8 @@ import com.gdu.cashbook.vo.DayAndPrice;
 
 @Mapper
 public interface CashMapper {
+	//년도 월별 비교하기
+	public List<Cash> selectYearList(Map<String,Object> map);
 	//가계부 정보 가져오기
 	public Cash  selectCash(int cashNo);
 	//가계부 입력폼

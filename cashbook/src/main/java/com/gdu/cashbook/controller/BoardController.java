@@ -65,6 +65,29 @@ public class BoardController {
 		commentService.removeComment(commentNo);
 		return "redirect:/boardList";
 	}
+	//댓글 수정
+	@GetMapping("/modifyComment")
+	public String modifyComment(HttpSession session,Model model,int commentNo) {
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+		
+		}
+		Comment comment = commentService.getCommentOne(commentNo);
+		System.out.println(comment+"<--comment");
+		model.addAttribute("comment", comment);
+		return "modifyComment";
+	}
+	@PostMapping("/modifyComment")
+	public String modifyComment(HttpSession session,Comment comment) {
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+		
+		}
+		commentService.modifyComment(comment);
+		System.out.println(comment+"<--updatecomment");
+		return "redirect:/boardOne?boardNo="+comment.getBoardNo();
+	}
+	
 	//게시판 수정
 	@GetMapping("/modifyBoard")
 	public String modifyBoard(HttpSession session,Model model,int boardNo) {
@@ -87,7 +110,7 @@ public class BoardController {
 	}
 	//게시판 삭제
 	@GetMapping("/removeBoard")
-	public String removeBoard(HttpSession session, Board board,int commentNo) {
+	public String removeBoard(HttpSession session, Board board) {
 		if(session.getAttribute("loginMember")== null) {
 			return "redirect:/";
 		
