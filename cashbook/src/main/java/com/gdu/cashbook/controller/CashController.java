@@ -21,29 +21,23 @@ import com.gdu.cashbook.service.CashService;
 import com.gdu.cashbook.vo.Cash;
 import com.gdu.cashbook.vo.DayAndPrice;
 import com.gdu.cashbook.vo.LoginMember;
+import com.gdu.cashbook.vo.dayAndMonthAndYearAndPrice;
 
 @Controller
 public class CashController {
 	@Autowired
 	private CashService cashService;
-	//년도 월별 비교
+	//년도 월별 구하기
 	@GetMapping("/getYearList")
-	public String getYearList(HttpSession session,Model model,@RequestParam(value="day",required=false) @DateTimeFormat(pattern="yyyy")LocalDate day) {
+	public String getYearList(HttpSession session,Model model,@DateTimeFormat(pattern="yyyy-MM-dd")LocalDate day) {
 		if(session.getAttribute("loginMember")== null) {
 			return "redirect:/";
 		}
-		
-		Calendar yDay = Calendar.getInstance();
-		
-		
-		
 		String memberId=((LoginMember)session.getAttribute("loginMember")).getMemberId();
-		int year=yDay.get(Calendar.YEAR);
-		int month=yDay.get(Calendar.MONTH)+1;
-		
-		List<Cash>  yearList = cashService.getYearList(memberId, year, month);
-		model.addAttribute(" yearList", yearList);
-		System.out.println(yearList+"<--yearList");
+		Map<String, Object> map = cashService.selectYearListAndmonthtotal(memberId, day);
+		model.addAttribute("list", map.get("list"));
+		System.out.println(map.get("list")+"<--list");
+		model.addAttribute("monthtotal", map.get("monthtotal"));
 		return "getYearList";
 	}
 	//가계부 다이어리 삭제
@@ -112,10 +106,13 @@ public class CashController {
 		String memberId=((LoginMember)session.getAttribute("loginMember")).getMemberId();
 		int year=cDay.get(Calendar.YEAR);
 		int month=cDay.get(Calendar.MONTH)+1;
-		List<DayAndPrice> dayAndPriceList= cashService.getCashandPriceList(memberId, year, month);
+		List<dayAndMonthAndYearAndPrice> dayAndPriceList= cashService.getCashandPriceList(memberId, year, month);
+		int monthSum=cashService.getMonthTotal(memberId, year, month);
+		System.out.println(monthSum+"<--monthSum");
 		model.addAttribute("dayAndPriceList", dayAndPriceList);
 		System.out.println(dayAndPriceList+"<--DayandPriceList");
 		model.addAttribute("day", day);
+		model.addAttribute("monthSum", monthSum);
 		//현재 월 구하기
 		//model.addAttribute("month",cDay.get(Calendar.MONTH)+1);
 		//마지막 일 

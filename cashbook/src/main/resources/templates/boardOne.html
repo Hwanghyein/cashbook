@@ -13,9 +13,24 @@ $(document).ready(function(){
 			$('#myform').submit();
 	});
 });
-</script>  
+</script>
+ <style>
+
+#aside{
+ 		width: 200px;
+        height: 3500px;
+        position: fixed;
+        background: blue;
+        overflow: hidden;
+        float: left;
+        color: white;
+
+          
+}
+</style>  
 </head>
 <body>
+<div id="aside" th:include="/include/menu::sidemenu"></div>
 <div class="container">
 <h1>게시판 상세정보</h1>
 <!-- 게시판 상세정보 테이블 -->

@@ -1,5 +1,6 @@
 package com.gdu.cashbook.service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,20 +12,41 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gdu.cashbook.mapper.CashMapper;
 import com.gdu.cashbook.vo.Cash;
 import com.gdu.cashbook.vo.DayAndPrice;
+import com.gdu.cashbook.vo.dayAndMonthAndYearAndPrice;
 
 @Service
 @Transactional
 public class CashService {
 	@Autowired
 	private CashMapper cashMapper;
-	
-	public List<Cash> getYearList(String memberId,int year,int month){
-		Map<String, Object> map = new HashMap<>();
+	//달에 총 합계
+	public Integer getMonthTotal(String memberId,int year, int month ) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("memberId", memberId);
 		map.put("year", year);
 		map.put("month", month);
-		return cashMapper.selectYearList(map);
+		Integer monthSum = cashMapper.selectmonthSum(map);
+		if(monthSum ==null) {
+			monthSum=0;
+		}
+		return monthSum;
 	}
+	//총 월 합과 년도 월별 합계
+	public Map<String, Object> selectYearListAndmonthtotal (String memberId,LocalDate day){
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("day", day);
+		List<dayAndMonthAndYearAndPrice> list = cashMapper.selectYearList(map);
+		Integer monthtotal =cashMapper.monthtotal(map);
+		if(monthtotal ==null) {
+			monthtotal =0;
+		}
+		Map<String, Object> map2 = new HashMap<>();
+		map2.put("list",list);
+		map2.put("monthtotal",monthtotal);
+		return map2;
+	}
+	//가계부 수정
 	public int modifyCash(Cash cash){
 		return cashMapper.updateCash(cash);
 	}
@@ -41,7 +63,7 @@ public class CashService {
 		return cashMapper.insertCash(cash);
 	}
 	//년와월 수입,지출 총액 출력
-	public List<DayAndPrice> getCashandPriceList(String memberId,int year,int month){
+	public List<dayAndMonthAndYearAndPrice> getCashandPriceList(String memberId,int year,int month){
 		Map<String, Object> map = new HashMap<>();
 		map.put("memberId", memberId);
 		map.put("year", year);

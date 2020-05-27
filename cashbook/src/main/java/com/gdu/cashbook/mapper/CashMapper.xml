@@ -3,14 +3,34 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook.mapper.CashMapper">
+	<!-- 달 총 합계 -->
+	<select id="selectmonthSum" parameterType="HashMap" resultType="Integer">
+		SELECT
+			Sum(CASE WHEN cash_kind='수입' Then cash_price WHEN cash_kind='지출' then -cash_price End)
+		FROM cash
+		WHERE member_id=#{memberId}
+		AND YEAR(cash_date) =#{year}
+		AND MONTH(cash_date) = #{month}
+	</select>
+	<!-- 월별 총 합계  -->
+	<select id="monthtotal" parameterType="HashMap" resultType="Integer">
+		SELECT
+			Sum(CASE WHEN cash_kind='수입' Then cash_price WHEN cash_kind='지출' then -cash_price End)
+		FROM cash
+		WHERE member_id=#{memberId}
+		AND YEAR(cash_date) = Year(#{day})
+		GROUP BY Year(cash_date)=Year(#{day})
+	</select>
 	<!-- 년도 월별 비교하기 -->
-	<select id="selectYearList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.YearAndPriceAndMemberId">
+	<select id="selectYearList" parameterType="HashMap" resultType="com.gdu.cashbook.vo.dayAndMonthAndYearAndPrice">
 		select
 		 MONTH(cash_date) MONTH,
 		Sum(CASE WHEN cash_kind='수입' Then cash_price WHEN cash_kind='지출' then -cash_price End) as price
 		From cash 
-		WHERE YEAR(cash_date)=#{year}
-		AND member_id=#{memberId}
+		WHERE member_id=#{memberId}
+		AND YEAR(cash_date)=YEAR(#{day})
+		AND MONTH(cash_date)
+		GROUP BY MONTH(cash_date)
 	</select>
 	<!--cash 정보 가져오기 -->
 	<select id ="selectCash" parameterType="int"  resultType="com.gdu.cashbook.vo.Cash">
@@ -47,7 +67,7 @@
         )
 	</insert>
 	<!--년도와 몇달 일별 출력 -->
-	<select id="selectDayAndPirceList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.DayAndPrice">
+	<select id="selectDayAndPirceList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.dayAndMonthAndYearAndPrice">
 		SELECT 
 			DAY(cash_date)as day,
 			Sum(CASE WHEN cash_kind='수입' Then cash_price WHEN cash_kind='지출' then -cash_price End) as price
