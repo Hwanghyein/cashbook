@@ -20,7 +20,7 @@ $(document).ready(function(){
  		width: 200px;
         height: 3500px;
         position: fixed;
-        background: blue;
+        background:#04B4AE;
         overflow: hidden;
         float: left;
         color: white;
@@ -30,8 +30,8 @@ $(document).ready(function(){
 </style>    
 </head>
 <body>
-<h1>2020년 가계부</h1>
 <div id="aside" th:include="/include/menu::sidemenu"></div>
+<h1 align="center">2020년 가계부</h1>
 <div class="container">
 <h3>수입/수출 입력</h3>
 	<form id="myForm" method="post" th:action="@{/addCash}">

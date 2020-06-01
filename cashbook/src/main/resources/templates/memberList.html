@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style>
+
+#aside{
+ 		width: 200px;
+        height: 3500px;
+        position: fixed;
+        background:  #04B4AE;
+        overflow: hidden;
+        float: left;
+        color: white;
+
+          
+}
+</style>  
+</head>
+<body>
+<div id="aside" th:include="/include/menu::sidemenu"></div>
+<div class="container">	
+	<h1 align="center">가계부 회원정보 </h1>
+	<table class="table">
+		<tr>
+		<th>아이디</th>
+		<th>사용자 이름</th>
+		<th>주소</th>
+		<th>전화번호</th>
+		<th>이메일</th>
+		<th>레벨</th>
+		<tr>
+		<tr th:if="${session.loginMember.memberId != member.memberId}" th:each="member :${memberList}">
+			<td th:text="${member.memberId}"></td>
+			<td th:text="${member.memberName}"></td>
+			<td th:text="${member.memberAddr}"></td>
+			<td th:text="${member.memberPhone}"></td>
+			<td th:text="${member.memberEmail}"></td>
+			<td th:text="${member.memberLevel}"></td>
+		</tr>
+	</table>
+	<div class="row">
+		<div class="col-sm-2">
+		<a th:href="@{/memberList(currentPage=1)}" class="btn btn-primary" role="button">처음</a>
+		</div>
+		
+		<div class="col-sm-2" th:if="${currentPage>1}">
+			<a th:href="@{/memberList(currentPage=${currentPage-1})}" class="btn btn-primary" role="button">이전</a>
+		</div>
+		<div class="col-sm-2" th:if="${currentPage<lastPage}">
+			<a th:href="@{/memberList(currentPage=${currentPage+1})}" class="btn btn-primary" role="button">다음</a>
+		</div>
+		<div class="col-sm-2">
+		<a th:href="@{/memberList(currentPage=${lastPage})}" class="btn btn-primary" role="button">마지막</a>
+		</div>
+		<div class="col-sm-4">
+		</div>
+		
+	</div>
+</div>	
+</body>
+</html>

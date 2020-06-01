@@ -1,5 +1,8 @@
 package com.gdu.cashbook.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gdu.cashbook.vo.LoginMember;
@@ -8,6 +11,10 @@ import com.gdu.cashbook.vo.UpdateMemberPw;
 
 @Mapper
 public interface MemberMapper {
+	//가계부 회원정보 총 합계
+	public int selectMemberCount();
+	//가계부 회원정보 리스트 출력
+	public List<Member> selectMemberIdList(Map<String, Object>map);
 	//회원사진 가져오기 
 	public String selectMemberPic(String memberId);
 	//비밀번호 변경

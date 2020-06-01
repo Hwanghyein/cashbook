@@ -8,13 +8,7 @@ public class Member { //table의 도메인(스펙, 범위)과 일치한다고 �
 	private String memberPhone;
 	private String memberEmail;
 	private String memberPic;
-	
-	public String getMemberPic() {
-		return memberPic;
-	}
-	public void setMemberPic(String memberPic) {
-		this.memberPic = memberPic;
-	}
+	private int memberLevel;
 	public String getMemberId() {
 		return memberId;
 	}
@@ -51,11 +45,25 @@ public class Member { //table의 도메인(스펙, 범위)과 일치한다고 �
 	public void setMemberEmail(String memberEmail) {
 		this.memberEmail = memberEmail;
 	}
+	public String getMemberPic() {
+		return memberPic;
+	}
+	public void setMemberPic(String memberPic) {
+		this.memberPic = memberPic;
+	}
+	public int getMemberLevel() {
+		return memberLevel;
+	}
+	public void setMemberLevel(int memberLevel) {
+		this.memberLevel = memberLevel;
+	}
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberAddr=" + memberAddr + ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail
-				+ ", memberPic=" + memberPic + "]";
+				+ ", memberPic=" + memberPic + ", memberLevel=" + memberLevel + "]";
 	}
+	
+	
 	
 }

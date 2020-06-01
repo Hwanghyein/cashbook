@@ -1,5 +1,7 @@
 package com.gdu.cashbook.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,25 @@ import com.gdu.cashbook.vo.UpdateMemberPw;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	//회원정보 리스트 출력
+	@GetMapping("/memberList")
+	public String memberList(HttpSession session,Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage) {
+		if(session.getAttribute("loginMember")== null) {
+			return "redirect:/";
+		}
+		LoginMember loginMember = (LoginMember)session.getAttribute("loginMember");
+	      if(loginMember.getMemberLevel()!=0) {
+	         return "redirect:/";
+	    }
+	    	final int rowPerPage=5;
+			List<Member> memberList = memberService.getMemberList(currentPage, rowPerPage);
+			model.addAttribute("memberList", memberList);
+			System.out.println(memberList+"<--memberList");
+			int lastPage= memberService.getBoardLastPage(rowPerPage);
+			model.addAttribute("lastPage", lastPage);
+			model.addAttribute("currentPage", currentPage);
+			return "memberList";
+	}
 	//비밀번호 변경
 	@GetMapping("/updateMemberPw")
 	public String updateMemberPw(HttpSession session, Model model) {

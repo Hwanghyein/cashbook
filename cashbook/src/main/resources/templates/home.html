@@ -13,7 +13,7 @@
  		width: 200px;
         height: 3500px;
         position: fixed;
-        background: blue;
+        background: #04B4AE;
         overflow: hidden;
         float: left;
         color: white;
@@ -23,8 +23,12 @@
 </style>  
 </head>
 <body>
-	<h1>home</h1>
-	<div id="aside" th:include="/include/menu::sidemenu"></div>
-	
+	<div id="aside" th:include="/include/menu::sidemenu"></div>	
+	<div th:if="${session.loginMember.memberLevel!=0}">
+		<h1 align="center">가계부를 이용해 손쉽게 돈을 관리해보세요</h1>
+	</div>
+	<div th:if="${session.loginMember.memberLevel==0}">
+	<h2 align="center">가계부(관리자 모드)</h2>
+	</div>		
 </body>
 </html>

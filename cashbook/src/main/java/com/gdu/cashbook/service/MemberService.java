@@ -2,6 +2,9 @@ package com.gdu.cashbook.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +15,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gdu.cashbook.mapper.BoardMapper;
 import com.gdu.cashbook.mapper.MemberMapper;
 import com.gdu.cashbook.mapper.MemberidMapper;
 import com.gdu.cashbook.vo.Member;
 import com.gdu.cashbook.vo.MemberForm;
 import com.gdu.cashbook.vo.Memberid;
 import com.gdu.cashbook.vo.UpdateMemberPw;
+import com.gdu.cashbook.vo.Board;
 import com.gdu.cashbook.vo.LoginMember;
 
 @Service
 @Transactional
 public class MemberService {
+	@Autowired
+	private BoardMapper boardMapper;
 	@Autowired
 	private MemberMapper memberMapper;
 	@Autowired
@@ -31,6 +38,23 @@ public class MemberService {
 	private JavaMailSender javaMailSender;
 	@Value("D:\\git-cashbook\\cashbook\\cashbook\\src\\main\\resources\\static\\upload")
 	private String path;
+	
+	//가계부 회원정보 리스트 출력
+	public List<Member> getMemberList(int currentPage, int rowPerPage){
+		Map<String, Object> map =new HashMap<>();
+		int startRow=(currentPage-1)*rowPerPage;
+		map.put("startRow", startRow);
+		map.put("rowPerPage", rowPerPage);
+		return memberMapper.selectMemberIdList(map);
+	}
+	public int getBoardLastPage(int rowPerPage) {
+		int count =memberMapper.selectMemberCount();
+		int lastPage=count/rowPerPage;
+		if(count %rowPerPage !=0) {
+			lastPage +=1;
+		}
+		return lastPage;
+	}
 	//비밀번호 변경
 	public int  modifyMemberByPw(UpdateMemberPw updateMemberPw) {
 		return memberMapper.updateMemberByPw(updateMemberPw);
@@ -64,16 +88,20 @@ public class MemberService {
 		//1.멤버 사진 삭제하기
 		//1_1파일 이름 select member_pic from member;
 		String memberPic= memberMapper.selectMemberPic(loginMember.getMemberId());
-		File file = new File(path+memberPic);
-		if(file.exists()) {
+		File file = new File(path+"\\"+memberPic);
+		if(memberPic.equals("dafault.jpg")) {
+			memberMapper.deleteMember(loginMember);
+		}else {
+			memberMapper.deleteMember(loginMember);
+		}try {
 			file.delete();
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 		//2.탈퇴한 아이디 저장
 		Memberid memberid= new Memberid();
 		memberid.setMemberId(loginMember.getMemberId());
 		memberidMapper.insertMemberid(memberid);
-		//3.탈퇴하기
-		memberMapper.deleteMember(loginMember);
 		
 	}
 	//회원정보수정

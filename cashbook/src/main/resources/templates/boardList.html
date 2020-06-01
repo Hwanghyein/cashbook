@@ -25,7 +25,7 @@ body {
  		width: 200px;
         height: 3000px;
         position: fixed;
-        background: blue;
+        background:  #04B4AE;
         overflow: hidden;
         float: left;
         color: white;
@@ -37,8 +37,8 @@ body {
 <body>
 <div id="aside" th:include="/include/menu::sidemenu"></div>
 <div class="container">
-<h1>BoardList</h1>
-<a th:href="@{/addBoard}">입력</a>
+<h1 align="center">BoardList</h1>
+<a th:href="@{/addBoard}" class="btn btn-primary" role="button">입력</a>
 	<table class="table">
 		<tr>
 			<th>boardNo</th>
@@ -53,15 +53,23 @@ body {
 			<td th:text="${board.boardDate}"></td>
 		</tr>
 	</table>
-	<div>
-		<a th:href="@{/boardList(currentPage=1)}">처음</a>
-		<th:if test="${currentPage>1}">
-			<a th:href="@{/boardList(currentPage=${currentPage-1})}">이전</a>
-		</th:if >
-		<th:if test="${currentPage<lastPage}">
-			<a th:href="@{/boardList(currentPage=${currentPage+1})}">다음</a>
-		</th:if>
-		<a th:href="@{/boardList(currentPage=${lastPage})}">마지막</a>
+	<div class="row">
+		<div class="col-sm-2">
+		<a th:href="@{/boardList(currentPage=1)}" class="btn btn-primary" role="button">처음</a>
+		</div>
+		
+		<div class="col-sm-2" th:if="${currentPage>1}">
+			<a th:href="@{/boardList(currentPage=${currentPage-1})}" class="btn btn-primary" role="button">이전</a>
+		</div>
+		<div class="col-sm-2" th:if="${currentPage<lastPage}">
+			<a th:href="@{/boardList(currentPage=${currentPage+1})}" class="btn btn-primary" role="button">다음</a>
+		</div>
+		<div class="col-sm-2">
+		<a th:href="@{/boardList(currentPage=${lastPage})}" class="btn btn-primary" role="button">마지막</a>
+		</div>
+		<div class="col-sm-4">
+		</div>
+		
 	</div>
 </div>
 </body>

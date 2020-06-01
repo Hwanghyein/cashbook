@@ -13,7 +13,7 @@
  		width: 200px;
         height: 3500px;
         position: fixed;
-        background: blue;
+        background:  #04B4AE;
         overflow: hidden;
         float: left;
         color: white;
@@ -24,12 +24,16 @@
 </head>
 <body>
 <div id="aside" th:include="/include/menu::sidemenu"></div>
-<h1 class="container">2020년 가계부</h1>
+<h1 align="center">2020년 가계부</h1>
 <div class="container">
 <div style='text-align:center' th:text="${day}"></div>
-<div>
-	<a th:href="@{/getCashListByDate(day=${day.plusDays(-1)})}">이전</a>
-	<a th:href="@{/getCashListByDate(day=${day.plusDays(+1)})}">다음</a>
+<div class="row">
+	<div class="col-sm-2">
+	<a th:href="@{/getCashListByDate(day=${day.plusDays(-1)})}" class="btn btn-primary" role="button">이전</a>
+	</div>
+	<div class="col-sm-2">
+	<a th:href="@{/getCashListByDate(day=${day.plusDays(+1)})}" class="btn btn-primary" role="button">다음</a>
+	</div>
 </div>
 <table class="table">
 		<tr class="table-warning">
@@ -59,7 +63,7 @@
 				<td><a th:href="@{/modifyCash(cashNo=${cash.cashNo})}">수정</a></td>
 		</tr>
 </table>
-	<a th:href="@{/addCash}">입력</a>
+	<a th:href="@{/addCash}" class="btn btn-primary" role="button">입력</a>
 	<div>수입+지출 합계:<span th:text="${cashKindSum}"></span></div>
 </div>
 </body>

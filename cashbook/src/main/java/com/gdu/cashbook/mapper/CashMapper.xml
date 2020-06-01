@@ -70,7 +70,8 @@
 	<select id="selectDayAndPirceList" parameterType="java.util.Map" resultType="com.gdu.cashbook.vo.dayAndMonthAndYearAndPrice">
 		SELECT 
 			DAY(cash_date)as day,
-			Sum(CASE WHEN cash_kind='수입' Then cash_price WHEN cash_kind='지출' then -cash_price End) as price
+			Sum(CASE WHEN cash_kind='수입' Then cash_price WHEN cash_kind='지출' then -cash_price End) as price,
+			cash_date AS date
 		From cash 
 		WHERE YEAR(cash_date)=#{year}
 		AND MONTH(cash_date)=#{month}

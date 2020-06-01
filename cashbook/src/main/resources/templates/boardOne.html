@@ -20,7 +20,7 @@ $(document).ready(function(){
  		width: 200px;
         height: 3500px;
         position: fixed;
-        background: blue;
+        background:  #04B4AE;
         overflow: hidden;
         float: left;
         color: white;
@@ -32,7 +32,7 @@ $(document).ready(function(){
 <body>
 <div id="aside" th:include="/include/menu::sidemenu"></div>
 <div class="container">
-<h1>게시판 상세정보</h1>
+<h1 align="center">게시판 상세정보</h1>
 <!-- 게시판 상세정보 테이블 -->
 <table class="table">
 		<tr>	
@@ -59,8 +59,8 @@ $(document).ready(function(){
 		<br>
 			<div class="btn-group">
 			<a th:href="@{/boardList}" class="btn btn-primary" role="button">목록</a>
-			<th:if test="${session.loginMember.memberId == board.memberId || session.loginMember.memberLevel ==0}"><a th:href="@{/modifyBoard(boardNo=${board.boardNo})}"class="btn btn-primary" role="button">수정</a>
-			<th:if test="${session.loginMember.memberId ==0 ||session.loginMember.memberId == board.memberId }"><a th:href="@{/removeBoard(boardNo=${board.boardNo})}" class="btn btn-primary" role="button">삭제</a>
+			<a th:href="@{/modifyBoard(boardNo=${board.boardNo})}" th:if="${session.loginMember.memberId == board.memberId || session.loginMember.memberLevel ==0}"class="btn btn-primary" role="button">수정</a>
+			<a th:href="@{/removeBoard(boardNo=${board.boardNo})}" th:if="${session.loginMember.memberLevel==0}" class="btn btn-primary" role="button">삭제</a>
 			</div>
 			<br>
 	<!-- 댓글 입력 -->

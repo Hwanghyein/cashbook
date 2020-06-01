@@ -112,6 +112,7 @@ public class CashController {
 		model.addAttribute("dayAndPriceList", dayAndPriceList);
 		System.out.println(dayAndPriceList+"<--DayandPriceList");
 		model.addAttribute("day", day);
+		model.addAttribute("month", month);
 		model.addAttribute("monthSum", monthSum);
 		//현재 월 구하기
 		//model.addAttribute("month",cDay.get(Calendar.MONTH)+1);
