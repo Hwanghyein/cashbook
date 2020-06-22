@@ -5,7 +5,7 @@
 <mapper namespace="com.gdu.cashbook.mapper.BoardMapper">
 <!-- 게시판 수정 -->
 <update id="updateBoard"  parameterType="com.gdu.cashbook.vo.Board">
-	Update board 
+	Update cashbook_board 
   	set board_title=#{boardTitle}, 
   		board_content=#{boardContent}
   	WHERE board_no=#{boardNo}
@@ -13,18 +13,18 @@
 <!-- 댓글 삭제 -->
 <delete id="deleteCommentNo" parameterType="com.gdu.cashbook.vo.Board">
 	Delete 
-	From comment
+	From cashbook_comment
   	WHERE board_no=#{boardNo}
 </delete>
 <!-- 게시판 삭제 -->
 <delete id="deleteBoardNo" parameterType="com.gdu.cashbook.vo.Board">
 	Delete 
-	From board
+	From cashbook_board
   	WHERE board_no=#{boardNo}
 </delete>
 <!-- 게시판 입력 -->
 <insert id="insertBoard" parameterType="com.gdu.cashbook.vo.Board">
-	INSERT INTO board(
+	INSERT INTO cashbook_board(
 		member_id,
 		board_title, 
 		board_content,
@@ -45,7 +45,7 @@
     	board_title boardTitle,
     	board_content boardContent,
     	board_date boardDate
-    FROM board
+    FROM cashbook_board
     WHERE board_no=#{boardNo}
 </select>
 <!-- 게시판 출력 -->
@@ -56,13 +56,13 @@
     	board_title boardTitle,
     	board_content boardContent,
     	board_date boardDate
-    from board
+    from cashbook_board
    	limit #{startRow},#{rowPerPage}
 </select>
 <!-- 게시판에 페이지 카운트  -->
 <select id="selectBoardCount" resultType="int">
 		select
 		count(*)
-		from board
+		from cashbook_board
 	</select>
 </mapper>

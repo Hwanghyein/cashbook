@@ -19,14 +19,14 @@
 			<h1>가계부</h1>
 			<!-- 세션 분기 -->
 			<div th:if="${session.loginMember != null}">
-				<a href="/logout" class="btn btn-primary">로그아웃</a>
+				<a href="http://ghkdsla1.cafe24.com/cashbook_cashbook/logout" class="btn btn-primary">로그아웃</a>
 			</div>
 			<div th:if="${session.loginMember == null}">
-				<a href="/login" class="btn btn-primary">로그인</a>
+				<a href="http://ghkdsla1.cafe24.com/cashbook_cashbook/login" class="btn btn-primary">로그인</a>
 			</div>
 			<br>
 			<div>
-				<a href="/addMember" class="btn btn-primary">회원가입</a>
+				<a href="http://ghkdsla1.cafe24.com/cashbook_cashbook/addMember" class="btn btn-primary">회원가입</a>
 			</div>
 			<div>본 콘텐츠의 저작권은 제공처에 있으며, 이를 무단 이용하는 경우 저작권법 등에 따라 법적 책임을 질 수
 				있습니다.</div>
@@ -37,8 +37,9 @@
 		<div>2.회원정보 -수정 </div>				
 		<div>3.일별 가계부 관리-입력,수정,삭제 </div>
 		<div>4.월별 가계부 관리 -월별 비교, 달 합계  </div>
-		<div>5.게시판 -입력, 삭제(관리자와입력한 회원자 가능),수정(관리자와입력한 회원자 가능)  </div>
+		<div>5.게시판 -입력, 삭제(관리자 가능),수정(관리자와입력한 회원자 가능)  </div>
 		<div>6.댓글 -입력, 수정(관리자와입력한 회원자 가능), 삭제(관리자와입력한 회원자 가능) </div>
+		<div>7.멤버 아이디:user10,비밀번호:1234, 관리자아이디:admin, 비밀번호:1234 </div>
 		</div>
 
 

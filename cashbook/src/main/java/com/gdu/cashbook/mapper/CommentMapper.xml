@@ -6,19 +6,19 @@
 <!-- 댓글 삭제 -->
 <delete id="deleteComment" parameterType="int">
 	Delete 
-	From comment
+	From cashbook_comment
   	WHERE comment_no=#{commmentNo}
 </delete>
 <!-- 댓글 수정 -->
 <update id="updateComment"  parameterType="com.gdu.cashbook.vo.Comment">
-	Update comment
+	Update cashbook_comment
   	set 
   		comment_content=#{commentContent}
   	WHERE comment_no=#{commentNo}
 </update>	
 <!-- 댓글 입력 -->
 <insert id="insertComment" parameterType="com.gdu.cashbook.vo.Comment">
-	INSERT INTO comment(
+	INSERT INTO cashbook_comment(
 		member_id,
 		board_no,
 		comment_content,
@@ -39,7 +39,7 @@
     	board_no boardNo,
     	comment_content commentContent,
     	comment_date commentDate
-    From comment
+    From cashbook_comment
     WHERE comment_no =#{commentNo}
 </select>
 <!-- 댓글 리스트 출력 -->
@@ -50,7 +50,7 @@
     	board_no boardNo,
     	comment_content commentContent,
     	comment_date commentDate
-    From comment
+    From cashbook_comment
     WHERE board_no=#{boardNo}
    	limit #{startRow},#{rowPerPage}
 </select>
@@ -58,6 +58,6 @@
 <select id="selectCommentCount" resultType="int">
 		SELECT
 		count(*)
-		From comment
+		From cashbook_comment
 	</select>
 </mapper>
